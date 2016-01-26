@@ -1,6 +1,6 @@
 <?php
-require_one('Base.php');
-require_one('Location.php');
+require_once('Base.php');
+require_once('Location.php');
 
 /**
  * 

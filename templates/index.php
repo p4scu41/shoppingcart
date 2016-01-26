@@ -41,6 +41,8 @@
                 </div><!--/.container-fluid -->
             </nav> <!--/.navbar-default -->
 
+            <div id="container_alert"></div>
+
             <!-- Main container of views -->
             <div ng-view=""></div>
 
@@ -54,6 +56,8 @@
         <!-- Bootstrap -->
         <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <!-- App -->
+        <script type="text/javascript" src="scripts/config.js"></script>
+        <script type="text/javascript" src="scripts/helper.js"></script>
         <script type="text/javascript" src="scripts/main.js"></script>
         <script type="text/javascript" src="scripts/controllers/product.js"></script>
         <script type="text/javascript" src="scripts/controllers/shoppingcart.js"></script>

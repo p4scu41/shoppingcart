@@ -1,5 +1,5 @@
 <?php
-require_one('Base.php');
+require_once('Base.php');
 
 /**
  * 
