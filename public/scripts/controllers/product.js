@@ -10,6 +10,7 @@
 angular.module('shoppingcartApp')
     .controller('ProductCtrl', function ($scope, $http) {
         $(Config.container_spinner).html(Config.icon_spinner);
+        $scope.modal = '#productModal';
 
         $http.get(Config.url_host + '/products').then(function(response) {
             $scope.products = response.data;
@@ -25,7 +26,13 @@ angular.module('shoppingcartApp')
         });
 
         $scope.addToShoppingCart = function(id_product){
-            console.log(id_product);
+            $($scope.modal).modal('hide');
+            
+            $http.put(Config.url_host + '/shoppingcart/' + id_product).then(function(response) {
+                Helper.alertSuccess('Producto agregado al carrito de compras');
+            }, function(response){
+                Helper.alertError('Error al obtener los datos');
+            });
         };
 
         $scope.view = function(id_product){
@@ -35,7 +42,7 @@ angular.module('shoppingcartApp')
                 if ($scope.product_detaills == null) {
                     Helper.alertError('Producto no disponible');
                 } else {
-                    $('#windowModal').modal('show');
+                    $($scope.modal).modal('show');
                 }
             }, function(response){
                 Helper.alertError('Error al obtener los datos');
