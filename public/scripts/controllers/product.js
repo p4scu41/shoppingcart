@@ -15,20 +15,33 @@ angular.module('shoppingcartApp')
         $(Config.container_spinner).html(Config.icon_spinner);
         $scope.modal = '#productModal';
         $scope.shoppingcart = shoppingcart;
+        
+        $scope.getProducts();
 
-        $http.get(Config.url_host + '/products').then(function(response) {
-            $scope.products = response.data;
-            
-            $(Config.container_spinner).fadeOut('slow');
-            $('[data-toggle="tooltip"]').tooltip();
+        /**
+         * Get all the products availables
+         */
+        $scope.getProducts = function() {
+            $http.get(Config.url_host + '/products').then(function(response) {
+                $scope.products = response.data;
 
-            if ($scope.products.length == 0) {
-                Helper.alertInfo('No se encontraron productos disponibles');
-            }
-        }, function(response){
-            Helper.alertError('Error al obtener los datos');
-        });
+                $(Config.container_spinner).fadeOut('slow');
+                $('[data-toggle="tooltip"]').tooltip();
 
+                if ($scope.products.length == 0) {
+                    Helper.alertInfo('No se encontraron productos disponibles');
+                }
+            }, function(response){
+                Helper.alertError('Error al obtener los datos');
+            });
+        };
+
+        /**
+         * Show a specific product in a boostrap modal
+         *
+         * @param number id_product ID of the product to show
+         * @param object event Event fired
+         */
         $scope.view = function(id_product, event){
             if (typeof event != 'undefined') {
                 var target = event.target || event.srcElement;

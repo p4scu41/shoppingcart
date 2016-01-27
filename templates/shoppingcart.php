@@ -1,5 +1,5 @@
 <li class="dropdown">
-    <a href="" class="dropdown-toggle" data-toggle="tooltip" title="Ver carrito de compras" ng-click="shoppingcart.getDetaills($event)">
+    <a href="" class="dropdown-toggle" data-toggle="tooltip" title="Ver carrito de compras" ng-click="shoppingcart.getDetaills($event, true)">
         <i class="glyphicon glyphicon-shopping-cart"></i> Carrito de compras ({{shoppingcart.count_products | number}})
     </a>
 </li>
@@ -33,7 +33,7 @@
                                 <td class="text-center">{{$index+1}}</td>
                                 <td>{{product.detaills.name}}</td>
                                 <td class="text-center col-md-2">
-                                    <input type="number" ng-model="product.quantity" min="1" class="form-control" size="3" ng-change="$parent.shoppingcart.calSubtotal()" />
+                                    <input type="number" ng-model="product.quantity" min="1" class="form-control" size="3" ng-change="$parent.shoppingcart.calSubtotal(); $parent.shoppingcart.updateProduct(product);" />
                                 </td>
                                 <td class="text-right">{{product.detaills.price}}</td>
                                 <td class="text-right">{{product.quantity * product.detaills.price | currency}}</td>

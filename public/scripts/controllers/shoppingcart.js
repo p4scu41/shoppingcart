@@ -9,13 +9,16 @@
  * Controller of the shoppingcartApp
  */
 angular.module('shoppingcartApp')
-    .controller('ShoppingcartCtrl', function ($scope, $http, $location, shoppingcart) {
+    .controller('ShoppingcartCtrl', function ($scope, $location, shoppingcart) {
         $scope.shoppingcart = shoppingcart;
+        $scope.modal = '#shoppingcartModal';
 
+        /**
+         * Redirecto to the view purchase
+         */
         $scope.purchase = function(){
             $($scope.modal).modal('hide');
             $location.path('/purchase');
-            console.log('purcase');
         };
 
     });

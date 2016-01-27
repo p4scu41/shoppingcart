@@ -62,5 +62,6 @@
         <script type="text/javascript" src="scripts/services/shoppingcart.js"></script>
         <script type="text/javascript" src="scripts/controllers/product.js"></script>
         <script type="text/javascript" src="scripts/controllers/shoppingcart.js"></script>
+        <script type="text/javascript" src="scripts/controllers/purchase.js"></script>
     </body>
 </html>

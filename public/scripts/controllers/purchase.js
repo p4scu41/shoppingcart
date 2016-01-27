@@ -1,66 +1,80 @@
 'use strict';
+/* global angular */
+/* global Helper */
+/* global Config */
 
 /**
  * @ngdoc function
- * @name shoppingcartApp.controller:ShoppingcartCtrl
+ * @name shoppingcartApp.controller:PurchaseCtrl
  * @description
- * # ShoppingcartCtrl
+ * # PurchaseCtrl
  * Controller of the shoppingcartApp
  */
 angular.module('shoppingcartApp')
-    .controller('ShoppingcartCtrl', function ($scope, $http) {
-        $scope.modal = '#shoppingcartModal';
-        $scope.container_alert = '#alert_shoppingcart';
-        $scope.shoppingcart = {};
+    .controller('PurchaseCtrl', function ($scope, $http, shoppingcart) {
+        var modal = '#viewProductModal';
+        $scope.shoppingcart = shoppingcart;
+        $scope.purchase = {
+            tax_percent: 16,
+            tax_amount: 100,
+            total: 0
+        };
+        $scope.payment = {
+            card_type: '',
+            card_number: '',
+            expiration_date: ''
+        };
+        $scope.shipment = {
+            country: '',
+            state: '',
+            city: '',
+            zip_code: '',
+            street: ''
+        };
 
-        $http.get(Config.url_host + '/shoppingcart/count').then(function(response) {
-            $scope.shoppingcart.count_products = response.data;
-        }, function(response){
-            Helper.alertError('Error al obtener los datos');
+        /**
+         * Calculate the taxes of the shopping cart
+         */
+        $scope.purchase.calTaxes = function(){
+            $scope.purchase.tax_amount = ($scope.purchase.tax_percent/100) * $scope.shoppingcart.subtotal;
+            $scope.purchase.total = $scope.purchase.tax_amount + $scope.shoppingcart.subtotal;
+        };
+
+        /**
+         * Use the promise returned by getDetaills to calculate the taxes after the data loaded
+         */
+        $scope.shoppingcart.getDetaills(undefined, false).then(function(){
+            $scope.purchase.calTaxes();
         });
 
-        $scope.shoppingcart.calSubtotal = function(){
-            $scope.shoppingcart.subtotal = 0;
+        /**
+         * Send the data to purchase
+         */
+        $scope.sendPurchase = function(){
+            var data = {
+                shoppingcart: $scope.shoppingcart,
+                payment: $scope.payment,
+                shipment: $scope.shipment
+            };
             
-            for (var i in $scope.shoppingcart.products) {
-                $scope.shoppingcart.subtotal += $scope.shoppingcart.products[i].quantity * $scope.shoppingcart.products[i].detaills.price;
-            }
-        };
-        
-        $scope.getDetaills = function(){
-            $($scope.container_alert).html('');
-            
-            $http.get(Config.url_host + '/shoppingcart').then(function(response) {
-                $.extend($scope.shoppingcart, response.data);
-                $scope.shoppingcart.calSubtotal();
-
-                $($scope.modal).modal('show');
+            $http.post(Config.url_host + '/shoppingcart', data).then(function(response) {
+                $scope.shoppingcart.products = {};
+                $scope.shoppingcart.subtotal = 0;
+                $scope.purchase.calTaxes();
+                Helper.alertSuccess('La compra se realizó correctamente', '#container_alert_purchase');
             }, function(response){
                 Helper.alertError('Error al obtener los datos');
             });
         };
 
-        $scope.clean = function(){
-            $http.delete(Config.url_host + '/shoppingcart').then(function(response) {
-                $($scope.modal).modal('hide');
-                $scope.shoppingcart.count_products = 0;
+        /**
+         * Show in a modal the detaills of the product
+         *
+         * @param object product
+         */
+        $scope.viewProduct = function(product){
+            $scope.product = product.detaills;
 
-                Helper.alertSuccess('Carrito de compras eliminado');
-            }, function(response){
-                Helper.alertError('Error al obtener los datos');
-            });
+            $(modal).modal('show');
         };
-
-        $scope.removeProduct = function(id_product){
-            $http.delete(Config.url_host + '/shoppingcart/' + id_product).then(function(response) {
-                $scope.shoppingcart.count_products = response.data;
-                delete $scope.shoppingcart.products[id_product];
-                $scope.shoppingcart.calSubtotal();
-
-                Helper.alertSuccess('Producto eliminado del Carrito de compras', $scope.container_alert);
-            }, function(response){
-                Helper.alertError('Error al obtener los datos');
-            });
-        };
-
     });

@@ -1,6 +1,7 @@
 <?php
 require_once('model/Product.php');
 require_once('model/Shoppingcart.php');
+require_once('model/Purchase.php');
 
 // Routes
 
@@ -39,7 +40,6 @@ $app->get('/shoppingcart', function ($request, $response, $args) {
 // Delete Shopping Cart
 // Clean shopping cart
 $app->delete('/shoppingcart', function ($request, $response, $args) {
-    sleep(4);
     return json_encode(Shoppingcart::clean());
 });
 
@@ -55,4 +55,28 @@ $app->delete('/shoppingcart/{id}', function ($request, $response, $args) {
 // Return the count of products in the shopping cart
 $app->get('/shoppingcart/count', function ($request, $response, $args) {
     return json_encode(Shoppingcart::countProducts());
+});
+
+// Post Quantity Product
+// Update quantity of the product in shopping cart
+$app->post('/shoppingcart/{id}', function ($request, $response, $args) {
+    $data = $request->getParsedBody();
+
+    return json_encode(Shoppingcart::updateQuantityProduct($args['id'], $data['quantity']));
+});
+
+// Post Shopping Cart
+// Purchase shopping cart
+$app->post('/shoppingcart', function ($request, $response, $args) {
+    $data = $request->getParsedBody();
+
+    if (count($data['shoppingcart']['products'])) {
+        $purchase = new Purchase();
+
+        $purchase->loadPropierties($data);
+
+        Shoppingcart::clean();
+
+        return json_encode(true);
+    }
 });

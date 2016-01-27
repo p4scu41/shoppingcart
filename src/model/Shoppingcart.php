@@ -119,4 +119,19 @@ class Shoppingcart extends Base
 
         return $shoppingcart;
     }
+
+    /**
+     * Update quantity of the product int the shopping cart
+     *
+     * @access public static
+     * @return boolean
+     */
+    public static function updateQuantityProduct($id_product, $quantity)
+    {
+        if (isset($_SESSION[Shoppingcart::KEY_SESSION][$id_product])) {
+            $_SESSION[Shoppingcart::KEY_SESSION][$id_product]['quantity'] = $quantity;
+        }
+
+        return true;
+    }
 }

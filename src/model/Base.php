@@ -8,6 +8,11 @@
 class Base
 {
     /**
+     * Empty constructor
+     */
+    public function __construct() { }
+
+    /**
      * PHP getter magic method.
      * This method is overridden so that attributes can be accessed by function if it exists.
      * ie $this->myvar => $this->getMyvar();
