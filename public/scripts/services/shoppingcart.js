@@ -10,8 +10,6 @@ shoppingcartApp.service('shoppingcart', ['$http', function($http){
     var shoppingcart = {},
         container_alert = '#alert_shoppingcart',
         modal = '#shoppingcartModal';
-
-    shoppingcart.getCount();
     
     /**
      * Get the count of products in the shopping cart
@@ -23,6 +21,8 @@ shoppingcartApp.service('shoppingcart', ['$http', function($http){
             Helper.alertError('Error al obtener los datos');
         });
     };
+    
+    shoppingcart.getCount();
 
     /**
      * Calculate the subtotal of the products in the shopping car

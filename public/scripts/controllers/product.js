@@ -15,8 +15,6 @@ angular.module('shoppingcartApp')
         $(Config.container_spinner).html(Config.icon_spinner);
         $scope.modal = '#productModal';
         $scope.shoppingcart = shoppingcart;
-        
-        $scope.getProducts();
 
         /**
          * Get all the products availables
@@ -35,6 +33,8 @@ angular.module('shoppingcartApp')
                 Helper.alertError('Error al obtener los datos');
             });
         };
+        
+        $scope.getProducts();
 
         /**
          * Show a specific product in a boostrap modal
