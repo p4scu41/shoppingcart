@@ -1,4 +1,7 @@
 'use strict';
+/* global angular */
+/* global Helper */
+/* global Config */
 
 /**
  * @ngdoc function
@@ -8,14 +11,15 @@
  * Controller of the shoppingcartApp
  */
 angular.module('shoppingcartApp')
-    .controller('ProductCtrl', function ($scope, $http) {
+    .controller('ProductCtrl', function ($scope, $http, shoppingcart) {
         $(Config.container_spinner).html(Config.icon_spinner);
         $scope.modal = '#productModal';
+        $scope.shoppingcart = shoppingcart;
 
         $http.get(Config.url_host + '/products').then(function(response) {
             $scope.products = response.data;
             
-            $(Config.container_spinner).fadeOut();
+            $(Config.container_spinner).fadeOut('slow');
             $('[data-toggle="tooltip"]').tooltip();
 
             if ($scope.products.length == 0) {
@@ -25,19 +29,21 @@ angular.module('shoppingcartApp')
             Helper.alertError('Error al obtener los datos');
         });
 
-        $scope.addToShoppingCart = function(id_product){
-            $($scope.modal).modal('hide');
-            
-            $http.put(Config.url_host + '/shoppingcart/' + id_product).then(function(response) {
-                Helper.alertSuccess('Producto agregado al carrito de compras');
-            }, function(response){
-                Helper.alertError('Error al obtener los datos');
-            });
-        };
+        $scope.view = function(id_product, event){
+            if (typeof event != 'undefined') {
+                var target = event.target || event.srcElement;
 
-        $scope.view = function(id_product){
+                if (typeof target != 'undefined') {
+                    $(target).append(Config.icon_spinner);
+                }
+            }
+
             $http.get(Config.url_host + '/product/' + id_product).then(function(response) {
                 $scope.product_detaills = response.data;
+
+                if (typeof target != 'undefined') {
+                    $(target).find(Config.selector_icon_spinner).fadeOut('slow', function(){$(this).remove()});
+                }
 
                 if ($scope.product_detaills == null) {
                     Helper.alertError('Producto no disponible');

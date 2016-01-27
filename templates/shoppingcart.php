@@ -1,5 +1,5 @@
 <li class="dropdown">
-    <a href="" class="dropdown-toggle" data-toggle="tooltip" title="Ver carrito de compras" ng-click="getDetaills()">
+    <a href="" class="dropdown-toggle" data-toggle="tooltip" title="Ver carrito de compras" ng-click="shoppingcart.getDetaills($event)">
         <i class="glyphicon glyphicon-shopping-cart"></i> Carrito de compras ({{shoppingcart.count_products | number}})
     </a>
 </li>
@@ -37,7 +37,7 @@
                                 </td>
                                 <td class="text-right">{{product.detaills.price}}</td>
                                 <td class="text-right">{{product.quantity * product.detaills.price | currency}}</td>
-                                <td class="text-center"><a href="" ng-click="removeProduct(product.detaills.id)"><i class="fa fa-trash-o"></i> </a></td>
+                                <td class="text-center"><a class="btn btn-danger" href="" ng-click="shoppingcart.removeProduct(product.detaills.id, $event)"><i class="fa fa-trash-o"></i> </a></td>
                             </tr>
                             <tr>
                                 <td colspan="4"></td>
@@ -49,7 +49,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-danger" ng-click="clean()">
+                    <button type="button" class="btn btn-danger" ng-click="shoppingcart.clean($event)">
                         <i class="fa fa-trash-o"></i> Eliminar carrito
                     </button>
                     <button type="button" class="btn btn-success" ng-click="purchase()">

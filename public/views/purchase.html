@@ -46,14 +46,14 @@
                                 <h5 class="title text-primary"><strong>{{product.name}}</strong></h5>
                                 <p class="text-justify description">{{product.description}}</p>
                                 <div class="row">
-                                    <div class="col-md-4 col-xs-4">
+                                    <div class="col-md-6 col-xs-6">
                                         <strong class="text-success">{{product.price | currency}}</strong>
                                     </div>
-                                    <div class="col-md-8 col-xs-8 text-right">
-                                        <a class="btn btn-default btn-sm" title="Ver detalles del producto" data-toggle="tooltip" href="" ng-click="view(product.id, $event)">
+                                    <div class="col-md-6 col-xs-6 text-right">
+                                        <a class="btn btn-default btn-sm" title="Ver detalles del producto" data-toggle="tooltip" href="" ng-click="view(product.id)">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <a class="btn btn-default btn-sm" title="Agregar al carrito de compras" data-toggle="tooltip" href="" ng-click="shoppingcart.addProduct(product.id, undefined, $event)">
+                                        <a class="btn btn-default btn-sm" title="Agregar al carrito de compras" data-toggle="tooltip" href="" ng-click="addToShoppingCart(product.id)">
                                             <i class="fa fa-share"></i><i class="fa fa-shopping-cart"></i>
                                         </a>
                                     </div>
@@ -87,7 +87,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" ng-click="shoppingcart.addProduct(product_detaills.id, '#productModal', $event)">
+                <button type="button" class="btn btn-primary" ng-click="addToShoppingCart(product_detaills.id)">
                     <i class="fa fa-share"></i><i class="fa fa-shopping-cart"></i>
                 </button>
             </div>

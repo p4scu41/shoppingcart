@@ -104,7 +104,6 @@ class Shoppingcart extends Base
     {
         $shoppingcart = [
             'count_products' => 0,
-            //'subtotal' => 0,
             'products' => [],
         ];
 
@@ -114,7 +113,6 @@ class Shoppingcart extends Base
             if (!empty($obj_product)) {
                 $shoppingcart['products'][$product['id']]['detaills'] = $obj_product;
                 $shoppingcart['products'][$product['id']]['quantity'] = $product['quantity'];
-                //$shoppingcart['subtotal'] = $obj_product['price'] * $product['quantity'];
                 $shoppingcart['count_products']++;
             }
         }

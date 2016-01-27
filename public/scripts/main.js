@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-angular.module('shoppingcartApp', [
+var shoppingcartApp = angular.module('shoppingcartApp', [
         'ngRoute'
     ])
     .config(function ($routeProvider) {
@@ -16,6 +16,10 @@ angular.module('shoppingcartApp', [
             .when('/', {
                 templateUrl: 'views/products.html',
                 controller: 'ProductCtrl'
+            })
+            .when('/purchase', {
+                templateUrl: 'views/purchase.html',
+                controller: 'PurchaseCtrl'
             })
             .otherwise({
                 redirectTo: '/'
