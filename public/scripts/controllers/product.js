@@ -31,6 +31,7 @@ angular.module('shoppingcartApp')
                 }
             }, function(response){
                 Helper.alertError('Error al obtener los datos');
+                console.log('Error: ' + response.status + ': ' + response.statusText);
             });
         };
         
